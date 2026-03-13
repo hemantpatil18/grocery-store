@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shri Revansiddheshwar Grocery Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js"></script>
+    </head>
+<body>
+    <div id="login-section" class="container">
+        <div class="login-box">
+            <div class="logo-icon"><i class="fas fa-shopping-basket"></i></div>
+            <h2>Owner Login</h2>
+            <p>Shri Revansiddheshwar Grocery Store</p>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login <i class="fas fa-sign-in-alt"></i></button>
+            <p id="login-error" class="error-msg"></p>
+        </div>
+    </div>
+    <div id="dashboard-section" class="container hidden">
+        <header>
+            <div class="brand">
+                <h1><i class="fas fa-store"></i> Shri Revansiddheshwar</h1>
+                <span>Grocery Store Management</span>
+            </div>
+            <div class="header-info">
+                <div class="owner-badge">
+                    <i class="fas fa-user-circle"></i> <span id="current-owner-display">Owner</span>
+                </div>
+                <button onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="info">
+                        <h3>Daily Sales</h3>
+                        <p>₹<span id="total-revenue">0</span></p>
+                        <h3>Yesterday Sales</h3>
+                        <p id="yesterdaySales">₹0</p>
+                        
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon"><i class="fas fa-receipt"></i></div>
+                    <div class="info">
+                        <h3>Bills Today</h3>
+                        <p><span id="total-bills-count">0</span></p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon"><i class="fas fa-boxes"></i></div>
+                    <div class="info">
+                        <h3>Products</h3>
+                        <p><span id="total-products">0</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="main-content">
+                <section class="left-panel">
+                    <div class="card">
+                        <h3><i class="fas fa-edit"></i> Product Management</h3>
+                        <div class="form-row">
+                            <input type="text" id="new-prod-name" placeholder="Product Name">
+                            <input type="number" id="new-prod-price" placeholder="Price">
+                            <input type="number" id="new-prod-stock" placeholder="Stock">
+                            <input type="file" id="new-prod-img" accept="image/*">
+                            <button onclick="addNewProduct()" class="btn-add">Add Product</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-list"></i> Product List</h3>
+                        <div id="products-container" class="grid-container">
+                        </div>
+                    </div>
+                </section>
+                <section class="right-panel">
+                    <div class="card">
+                        <h3><i class="fas fa-user-plus"></i> Customer Details</h3>
+                        <div class="customer-form">
+                            <input type="text" id="customer-name" placeholder="Customer Name">
+                            <input type="tel" id="customer-phone" placeholder="Customer Phone">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-shopping-cart"></i> Billing Cart</h3>
+                        <table id="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-body">
+                            </tbody>
+                        </table>
+                        <div class="cart-footer">
+                            <h3>Grand Total: ₹<span id="grand-total">0</span></h3>
+                            <button onclick="generateBill()" class="btn-generate">Generate Bill</button>
+                        </div>
+                    </div>
+                    <div id="bill-actions" class="card hidden">
+                        <h3><i class="fas fa-file-invoice"></i> Bill Actions</h3>
+                        <p class="bill-preview-text">Bill generated successfully!</p>
+                        <div class="share-buttons">
+                            
+                            </button>
+                            <button onclick="shareWhatsApp()" class="btn-whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                            <button onclick="shareSMS()" class="btn-sms">
+                                <i class="fas fa-sms"></i> SMS
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="pdf-template" class="hidden">
+        <div class="pdf-header">
+            <h2>Shri Revansiddheshwar Grocery Store</h2>
+            <p>Address: Main Road Valsang, dist Solapur</p>
+            <p>Date: <span id="pdf-date"></span></p>
+            <p>Owner: <span id="pdf-owner"></span></p>
+            <p>Customer: <span id="pdf-customer"></span></p>
+            <p>Phone: <span id="pdf-phone"></span></p>
+        </div>
+        
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
