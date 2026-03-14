@@ -1,11 +1,11 @@
 const defaultOwners = [
-    { username: 'owner1', password: '1234' },
+    { username: 'chetan', password: '9423' },
     { username: 'owner2', password: '1234' },
     { username: 'owner3', password: '1234' }
 ];
 
 const defaultProducts = [
-    { id: 1, name: 'Rice', price: 60, stock: 50, image: 'https://via.placeholder.com/100?text=Rice' },
+    { id: 1, name: 'Rice', price: 60, stock: 50, image: 'https://via.placeholder.com/100?text=Rice '},
     { id: 2, name: 'Sugar', price: 40, stock: 40, image: 'https://via.placeholder.com/100?text=Sugar' },
     { id: 3, name: 'Milk', price: 60, stock: 20, image: 'https://via.placeholder.com/100?text=Milk' },
     { id: 4, name: 'Tea', price: 120, stock: 15, image: 'https://via.placeholder.com/100?text=Tea' },
@@ -13,17 +13,21 @@ const defaultProducts = [
     { id: 6, name: 'Biscuits', price: 20, stock: 100, image: 'https://via.placeholder.com/100?text=Biscuits' }
 ];
 
-let owners = JSON.parse(localStorage.getItem('groceryOwners')) || defaultOwners;
+let owners = JSON.parse(localStorage.getItem('groceryOwners'));
+
+if (!owners) {
+    owners = defaultOwners;
+    localStorage.setItem('groceryOwners', JSON.stringify(owners));
+}
+
 let products = JSON.parse(localStorage.getItem('groceryProducts')) || defaultProducts;
 let salesHistory = JSON.parse(localStorage.getItem('grocerySales')) || [];
-
 
 function saveData() {
     localStorage.setItem('groceryOwners', JSON.stringify(owners));
     localStorage.setItem('groceryProducts', JSON.stringify(products));
     localStorage.setItem('grocerySales', JSON.stringify(salesHistory));
 }
-
 
 function login() {
     const userIn = document.getElementById('username');
@@ -348,17 +352,26 @@ function shareSMS() {
 
     const customerName = currentBillData.customerName;
     const customerPhone = currentBillData.customerPhone;
-    
-    let message = `Shri Revansiddheshwar Grocery Store. Customer: ${customerName}. Total: ₹${currentBillData.total}. Date: ${currentBillData.date}`;
+
+    let message = `Shri Revansiddheshwar Grocery Store\n`;
+    message += `Customer: ${customerName}\n`;
+    message += `Date: ${currentBillData.date}\n\n`;
+    message += `Items:\n`;
+
+    currentBillData.items.forEach(item => {
+        message += `${item.name} - Qty: ${item.quantity} - ₹${item.price}\n`;
+    });
+
+    message += `\nTotal Amount: ₹${currentBillData.total}`;
+
     const encodedMessage = encodeURIComponent(message);
-    
+
     if (customerPhone && customerPhone.length > 5) {
-        window.location.href=`sms:+91${customerPhone.replace(/\D/g, '')}?body=${encodedMessage}`, '_blank';
+        window.open(`sms:+91${customerPhone.replace(/\D/g, '')}?body=${encodedMessage}`, '_blank');
     } else {
-        window.location.href=`sms:?body=${encodedMessage}`, '_blank';
+        window.open(`sms:?body=${encodedMessage}`, '_blank');
     }
 }
-
 window.onload = function() {
     if (sessionStorage.getItem('currentUser')) {
         document.getElementById('login-section').classList.add('hidden');
@@ -418,4 +431,3 @@ function loadProducts(){
     });
 
 }
-
